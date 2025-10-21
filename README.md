@@ -1,4 +1,4 @@
-# FCAIAgentSample
+# FC.AIAgentSample
 
 AIエージェント開発ハンズオンセミナー (開発者向け) のサンプルコードとチュートリアル
 
