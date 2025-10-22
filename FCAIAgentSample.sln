@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 		Documents\2025010.AIエージェント開発ハンズオンセミナー.pptx = Documents\2025010.AIエージェント開発ハンズオンセミナー.pptx
 		Documents\aiagentlog.md = Documents\aiagentlog.md
 		LICENSE.txt = LICENSE.txt
+		Documents\maf.md = Documents\maf.md
 		README.md = README.md
 		Documents\tutorial.0.1.md = Documents\tutorial.0.1.md
 		Documents\tutorial.0.2.md = Documents\tutorial.0.2.md
@@ -103,9 +104,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目
 		.mcp.json = .mcp.json
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reviews", "Reviews", "{797B7EC8-F122-43AF-9DD6-19E0C4281E7A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".vscode", ".vscode", "{CF225F5B-A5F6-4305-8D6F-26ABCA9A7B86}"
 	ProjectSection(SolutionItems) = preProject
-		Reviews\CodeReview.00.md = Reviews\CodeReview.00.md
+		.vscode\mcp.json = .vscode\mcp.json
 	EndProjectSection
 EndProject
 Global
@@ -148,6 +149,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{5D5D9900-AFD8-4070-A26A-0F3687F7CE41} = {DDB4EF12-CC4E-5E88-E6FC-71A802F4DE97}
+		{CF225F5B-A5F6-4305-8D6F-26ABCA9A7B86} = {2022CB0F-8BAF-F49E-0C48-8EF4C96EC109}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0405CB8-CE22-4ABD-AB69-4452DC1E54B3}
