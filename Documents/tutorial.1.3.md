@@ -249,7 +249,7 @@ You: exit
 const string agentName    = "テキストベースRPG";
 const string instructions = @"あなたは**テキストベースRPGのゲームマスター**です";
 // 新: エージェントのシステムロールに与える文脈的な指示
-const string systemPrompt = "
+const string systemPrompt = @"
 あなたは**テキストベースRPGのゲームマスター**です。
 舞台は「ドラゴンクエスト」風の世界――**アレフガルド**。
 プレイヤーはホビットの冒険者。
