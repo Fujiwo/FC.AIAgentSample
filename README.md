@@ -1,13 +1,43 @@
 # FC.AIAgentSample
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE.txt)
+[![.NET](https://img.shields.io/badge/.NET-8.0%2B-purple.svg)](https://dotnet.microsoft.com/)
+[![C%23](https://img.shields.io/badge/C%23-12.0-blue.svg)](https://docs.microsoft.com/en-us/dotnet/csharp/)
+
 AIエージェント開発ハンズオンセミナー (開発者向け) のサンプルコードとチュートリアル
+
+---
+
+## 目次
+
+- [概要](#概要)
+- [特徴](#特徴)
+- [クイックスタート](#クイックスタート)
+- [内容一覧](#内容一覧)
+- [チュートリアルの実施方法](#チュートリアルの実施方法)
+- [プロジェクト構成](#プロジェクト構成)
+- [実施環境](#実施環境)
+- [技術用語の補足](#技術用語の補足)
+- [ファイル・ディレクトリ構成](#ファイルディレクトリ構成)
+- [トラブルシューティング](#トラブルシューティング)
+- [ライセンス](#ライセンス)
+- [作者](#作者)
+- [コントリビューション・フィードバック](#コントリビューションフィードバック)
+- [関連リソース](#関連リソース)
+- [謝辞](#謝辞)
+
+---
 
 ## 概要
 
 このリポジトリは、Microsoft Agent Framework と Model Context Protocol (MCP) を使用した AI エージェント開発の実践的なチュートリアルを提供します。ローカル LLM(Ollama)や Azure OpenAI を利用した AI エージェントの作成から、MCP サーバーの実装、そしてエージェントと MCP サーバーの統合まで、段階的に学習できます。
 
->このサンプルコードとチュートリアルは、執筆時点のプレビュー版の Microsoft Agent Framework が基になっています。
->Microsoft Agent Framework は、今後のバージョンアップで内容が変わる可能性があります。
+> [!IMPORTANT]  
+> このサンプルコードとチュートリアルは、執筆時点のプレビュー版の Microsoft Agent Framework が基になっています。  
+> Microsoft Agent Framework は、今後のバージョンアップで内容が変わる可能性があります。
+
+> [!NOTE]  
+> このプロジェクトはチュートリアル・学習目的で作成されています。本番環境での使用前に、適切なセキュリティレビューと最適化を行ってください。
 
 ## 特徴
 
@@ -17,6 +47,26 @@ AIエージェント開発ハンズオンセミナー (開発者向け) のサ�
 - **段階的な学習** - 基礎から応用まで、ステップバイステップで学習
 - **実践的なサンプル** - すぐに動かせる実装例を複数提供
 - **日本語ドキュメント** - すべてのチュートリアルを日本語で提供
+
+## クイックスタート
+
+すぐに始めたい方向けの最短手順：
+
+1. **リポジトリをクローン**
+   ```bash
+   git clone https://github.com/Fujiwo/FC.AIAgentSample.git
+   cd FC.AIAgentSample
+   ```
+
+2. **必要なツールを確認**
+   - .NET 8.0 以上がインストールされているか確認（`dotnet --version`）
+   - Ollama をインストール（ローカルLLMを使用する場合）
+
+3. **チュートリアルを開始**
+   - [インストールガイド](./Documents/tutorial.0.1.md)から始める
+   - または既存のサンプルプロジェクトを実行してみる
+
+詳細な手順は、[チュートリアルの実施方法](#チュートリアルの実施方法)をご覧ください。
 
 ## 内容一覧
 
@@ -61,8 +111,17 @@ AIエージェント開発ハンズオンセミナー (開発者向け) のサ�
 - **Node.js** (v24.0 以上推奨)
   - MCP サーバーの動作確認ツールに必要
 
-前提知識のための資料は以下にあります:
-- [AIエージェント開発ハンズオンセミナー (PDF)](./Documents/2025010.AIエージェント開発ハンズオンセミナー.pdf)
+#### 推奨される前提知識
+
+前提知識のための資料として、以下のセミナー資料をご用意しています：
+
+- [AIエージェント開発ハンズオンセミナー (PDF)](./Documents/2025010.AIエージェント開発ハンズオンセミナー.pdf) - AI エージェントと MCP の基礎概念を解説
+
+また、以下の知識があるとスムーズに学習を進められます：
+
+- C# プログラミングの基礎
+- .NET アプリケーションの基本的な開発経験
+- コマンドライン操作の基礎知識
 
 #### 選択要件
 
@@ -77,12 +136,6 @@ AIエージェント開発ハンズオンセミナー (開発者向け) のサ�
   - Microsoft Azure アカウントが必要
   - 課金が発生する可能性があります
   - [設定ガイド](./Documents/tutorial.0.2.md)を参照
-
-#### 推奨される前提知識
-
-- C# プログラミングの基礎
-- .NET アプリケーションの基本的な開発経験
-- コマンドライン操作の基礎知識
 
 ### 学習の進め方
 
@@ -357,12 +410,42 @@ Copyright (c) 2025 Fujio Kojima
 - [X (Twitter)](https://x.com/Fujiwo)
 - [Instagram](https://www.instagram.com/fujiwo/)
 
-### **リポジトリ**: https://github.com/Fujiwo/Shos.AIAgentSample
+### **リポジトリ**: https://github.com/Fujiwo/FC.AIAgentSample
+
+## コントリビューション・フィードバック
+
+このプロジェクトへのコントリビューションやフィードバックを歓迎します。
+
+### フィードバックの方法
+
+- **Issues**: バグ報告や機能要望は [GitHub Issues](https://github.com/Fujiwo/FC.AIAgentSample/issues) をご利用ください
+- **質問**: チュートリアルに関する質問も Issues で受け付けています
+- **改善提案**: ドキュメントの改善提案も歓迎します
+
+### コントリビューションガイドライン
+
+- チュートリアルの誤字脱字の修正
+- サンプルコードの改善
+- 新しいサンプルプロジェクトの追加
+- ドキュメントの翻訳（将来的に英語版など）
+
+プルリクエストを送る前に、Issue で議論することをお勧めします。
+
+## 関連リソース
+
+### 公式ドキュメント
+
+- [Microsoft Agent Framework](https://github.com/microsoft/agent-framework)
+- [Model Context Protocol](https://modelcontextprotocol.io/)
+- [.NET Extensions AI](https://learn.microsoft.com/en-us/dotnet/ai/)
+
+### 参考資料
+
+- [Ollama 公式サイト](https://ollama.ai/)
+- [Azure OpenAI Service](https://azure.microsoft.com/ja-jp/products/ai-services/openai-service)
 
 ## 謝辞
 
 このプロジェクトは、Microsoft Agent Framework と Model Context Protocol を使用しています。これらの素晴らしいツールを提供してくださった開発者の皆様に感謝いたします。
 
----
-
-**注意**: このリポジトリのコードはチュートリアル目的で提供されています。本番環境での使用前に、適切なセキュリティレビューと最適化を行ってください。
+また、チュートリアルの作成にあたり、多くのオープンソースプロジェクトやコミュニティの知見を参考にさせていただきました。
