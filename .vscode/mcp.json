@@ -1,18 +1,5 @@
 {
 	"servers": {
-		"McpServer.Con": {
-			"type": "stdio",
-			"command": "dotnet",
-			"args": [
-				"run",
-				"--project",
-				"C:\\Source\\FCAIAgentSample\\McpServer.Con\\McpServer.Con.csproj"
-			]
-		},
-		"McpServer.Sse": {
-			"type": "http",
-			"url": "http://localhost:3001/sse"
-    },
     "github": {
       "type": "http",
       "url": "https://api.githubcopilot.com/mcp"
