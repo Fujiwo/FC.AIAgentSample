@@ -501,8 +501,6 @@ FCAIAgentSample/
 
 MIT License
 
-Copyright (c) 2025 Fujio Kojima
-
 詳細は [LICENSE.txt](./LICENSE.txt) を参照してください。
 
 ## 作者
@@ -510,25 +508,6 @@ Copyright (c) 2025 Fujio Kojima
 **小島 富治雄** - ソフトウェア開発エンジニア
 
 ### **リポジトリ**: https://github.com/Fujiwo/FC.AIAgentSample
-
-## コントリビューション・フィードバック
-
-このプロジェクトへのコントリビューションやフィードバックを歓迎します。
-
-### フィードバックの方法
-
-- **Issues**: バグ報告や機能要望は [GitHub Issues](https://github.com/Fujiwo/FC.AIAgentSample/issues) をご利用ください
-- **質問**: チュートリアルに関する質問も Issues で受け付けています
-- **改善提案**: ドキュメントの改善提案も歓迎します
-
-### コントリビューションガイドライン
-
-- チュートリアルの誤字脱字の修正
-- サンプルコードの改善
-- 新しいサンプルプロジェクトの追加
-- ドキュメントの翻訳（将来的に英語版など）
-
-プルリクエストを送る前に、Issue で議論することをお勧めします。
 
 ## 関連リソース
 
