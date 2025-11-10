@@ -16,6 +16,7 @@ AIエージェント開発ハンズオンセミナー (開発者向け) のサ�
 - [内容一覧](#内容一覧)
 - [チュートリアルの実施方法](#チュートリアルの実施方法)
 - [プロジェクト構成](#プロジェクト構成)
+- [サンプルアプリケーション](#サンプルアプリケーション)
 - [実施環境](#実施環境)
 - [技術用語の補足](#技術用語の補足)
 - [ファイル・ディレクトリ構成](#ファイルディレクトリ構成)
@@ -46,6 +47,9 @@ AIエージェント開発ハンズオンセミナー (開発者向け) のサ�
 - **MCP サーバーの実装** - STDIO と SSE の両方のトランスポート方式をサポート
 - **段階的な学習** - 基礎から応用まで、ステップバイステップで学習
 - **実践的なサンプル** - すぐに動かせる実装例を複数提供
+  - コンソールアプリケーション（AI エージェント）
+  - Web アプリケーション（リアルタイムチャット）
+  - デスクトップアプリケーション（AI 統合 CAD）
 - **日本語ドキュメント** - すべてのチュートリアルを日本語で提供
 
 ## クイックスタート
@@ -64,7 +68,8 @@ AIエージェント開発ハンズオンセミナー (開発者向け) のサ�
 
 3. **チュートリアルを開始**
    - [インストールガイド](./Documents/tutorial.0.1.md)から始める
-   - または既存のサンプルプロジェクトを実行してみる
+   - または既存のサンプルプロジェクトを実行してみる（FCAIAgent1〜5）
+   - Web チャットアプリケーション（FCAIChat1〜5）や CAD アプリケーション（FCAICad1）も試せます
 
 詳細な手順は、[チュートリアルの実施方法](#チュートリアルの実施方法)をご覧ください。
 
@@ -144,8 +149,8 @@ AIエージェント開発ハンズオンセミナー (開発者向け) のサ�
 1. **リポジトリのクローン**
 
    ```bash
-   git clone https://github.com/Fujiwo/FCAIAgentSample.git
-   cd FCAIAgentSample
+   git clone https://github.com/Fujiwo/FC.AIAgentSample.git
+   cd FC.AIAgentSample
    ```
 
 2. **必要なツールのインストール**
@@ -193,6 +198,15 @@ dotnet run
 
 # MCP サーバーの例
 cd McpServer.Con
+dotnet run
+
+# Web チャットアプリケーションの例
+cd FCAIChat1
+dotnet run
+# ブラウザで https://localhost:7xxx にアクセス
+
+# CAD アプリケーションの例（Windows のみ）
+cd FCAICad1
 dotnet run
 ```
 
@@ -257,13 +271,60 @@ dotnet run
 - **.vscode/mcp.json** - Visual Studio Code 用の MCP サーバー設定
 - **FCAIAgentSample.sln** - Visual Studio ソリューションファイル
 
+## サンプルアプリケーション
+
+チュートリアルプロジェクト以外にも、実践的なアプリケーション例が含まれています。
+
+### Web チャットアプリケーション (FCAIChat1〜5)
+
+ASP.NET Core と SignalR を使用した、リアルタイム Web チャットアプリケーションのシリーズです。
+
+- **FCAIChat1** - 基本的な Web チャット UI
+  - ASP.NET Core Identity による認証機能
+  - SignalR によるリアルタイム通信
+  - Entity Framework Core によるデータ管理
+  
+- **FCAIChat2** - メッセージ永続化機能を追加
+  - チャット履歴のデータベース保存
+  - MessagesDbContext による履歴管理
+  
+- **FCAIChat3** - 機能拡張版
+  - より高度なチャット機能
+  
+- **FCAIChat4** - さらなる機能追加
+  - ユーザー体験の向上
+  
+- **FCAIChat5** - スレッド管理機能を追加
+  - InMemoryThreadStore によるスレッド管理
+  - 複数の会話セッションのサポート
+
+これらのプロジェクトは、AI エージェントを Web アプリケーションに統合する方法を示しています。
+
+### CAD アプリケーション (FCAICad1)
+
+Windows Forms を使用した、AI エージェントを統合した CAD (Computer-Aided Design) アプリケーションです。
+
+- **主な機能**:
+  - 自然言語による図形描画指示
+  - AI エージェントによる描画コマンド実行
+  - リアルタイム図形表示
+  
+- **提供されるツール**:
+  - `GetPaperSize()` - 用紙サイズの取得
+  - `DrawLine()` - 直線の描画
+
+このプロジェクトは、AI エージェントをデスクトップアプリケーションに統合し、自然言語でアプリケーションを制御する実例を提供します。
+
 ## 実施環境
 
 ### オペレーティングシステム
 
-- Windows 11
-- macOS (一部機能)
-- Linux (一部機能)
+- **Windows 11** - すべてのプロジェクトをサポート
+- **macOS** - FCAIAgent、FCAIChat、MCP サーバープロジェクトをサポート（FCAICad1 を除く）
+- **Linux** - FCAIAgent、FCAIChat、MCP サーバープロジェクトをサポート（FCAICad1 を除く）
+
+> [!NOTE]  
+> FCAICad1 プロジェクトは Windows Forms を使用しているため、Windows でのみ動作します。
 
 ### 言語とランタイム
 
@@ -273,11 +334,20 @@ dotnet run
 
 ### 主要な依存パッケージ
 
+#### AI エージェント関連
 - `Microsoft.Agents.AI` (プレリリース版)
 - `Microsoft.Extensions.AI`
 - `ModelContextProtocol` (プレリリース版)
 - `OllamaSharp` - ローカル LLM との通信
 - `Azure.AI.OpenAI` - Azure OpenAI との通信
+
+#### Web アプリケーション関連（FCAIChat）
+- `Microsoft.AspNetCore.Identity.EntityFrameworkCore` - 認証・認可
+- `Microsoft.AspNetCore.SignalR` - リアルタイム通信
+- `Microsoft.EntityFrameworkCore.SqlServer` - データベースアクセス
+
+#### デスクトップアプリケーション関連（FCAICad）
+- Windows Forms (.NET 8.0+)
 
 ## 技術用語の補足
 
@@ -290,6 +360,8 @@ dotnet run
 - **Microsoft Agent Framework**: Microsoft が提供する AI エージェント開発用のフレームワーク（プレビュー版）
 - **IChatClient**: .NET の AI 拡張における、チャット機能を提供する標準インターフェース
 - **AgentThread**: 複数ターンの対話を管理するためのオブジェクト
+- **SignalR**: ASP.NET Core のリアルタイム Web 機能を提供するライブラリ
+- **Entity Framework Core**: .NET 用のオブジェクト関係マッピング (ORM) フレームワーク
 
 ## ファイル・ディレクトリ構成
 
@@ -330,13 +402,34 @@ FCAIAgentSample/
 ├── FCAIAgent5/                 # MCP サーバー連携（複数）
 │   ├── Program.cs
 │   └── FCAIAgent5.csproj
+├── FCAIChat1/                  # Web チャット（基本）
+│   ├── Program.cs
+│   ├── Hubs/                  # SignalR ハブ
+│   ├── Pages/                 # Razor Pages
+│   ├── Data/                  # データコンテキスト
+│   └── FCAIChat1.csproj
+├── FCAIChat2/                  # Web チャット（履歴保存）
+│   └── ...
+├── FCAIChat3/                  # Web チャット（機能拡張）
+│   └── ...
+├── FCAIChat4/                  # Web チャット（さらなる機能追加）
+│   └── ...
+├── FCAIChat5/                  # Web チャット（スレッド管理）
+│   └── ...
+├── FCAICad1/                   # CAD アプリケーション
+│   ├── Program.cs             # メインプログラム
+│   ├── ChatAgent.cs           # AI エージェント実装
+│   ├── MainForm.cs            # メインフォーム
+│   ├── View.cs                # 描画ビュー
+│   ├── Model.cs               # データモデル
+│   └── FCAICad1.csproj
 ├── McpServer.Con/              # STDIO MCP サーバー
 │   ├── Program.cs             # 時刻取得ツール実装
 │   └── McpServer.Con.csproj
 ├── McpServer.Sse/              # HTTP/SSE MCP サーバー
 │   ├── Program.cs             # 天気予報ツール実装
 │   └── McpServer.Sse.csproj
-├── FCAIAgentSample.sln      # Visual Studio ソリューション
+├── FCAIAgentSample.sln         # Visual Studio ソリューション
 ├── LICENSE.txt                 # ライセンス情報
 └── README.md                   # このファイル
 ```
@@ -384,6 +477,25 @@ FCAIAgentSample/
   - `.mcp.json` 内のパスが環境に合っているか確認
   - Windows の場合: バックスラッシュを使用
   - Linux/Mac の場合: スラッシュを使用
+
+#### Web チャットアプリケーションでエラーが発生する
+
+- **データベース接続エラー**
+  - SQL Server が起動しているか確認
+  - `appsettings.json` の接続文字列を確認
+  - 初回実行時は Entity Framework のマイグレーションが必要な場合があります
+  
+- **HTTPS 証明書エラー**
+  - 開発用証明書を信頼する:
+    ```bash
+    dotnet dev-certs https --trust
+    ```
+
+#### CAD アプリケーションが起動しない
+
+- **Windows Forms の要件**
+  - FCAICad1 は Windows でのみ動作します
+  - .NET デスクトップ開発ワークロードがインストールされているか確認
 
 ## ライセンス
 
