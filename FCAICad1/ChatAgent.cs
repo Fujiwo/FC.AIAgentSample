@@ -105,7 +105,7 @@ public class MyChatAgent : ChatAgent
     public override string    Name         => "CADオペレーター";   
     protected override string Instructions => "CADオペレーターとして、CADを用いた製図を行ってください。";
     // エージェントのシステムロールに与える文脈的な指示
-    protected override string SystemPrompt => $"あなたは一流のCADオペレーターです。CADを用いた様々な製図を得意としています。指示に従って図面を描いてください。特に指示がなければ、幅{Program.GetPaperSize().Width}・高さ{Program.GetPaperSize().Height}の範囲に描いてください。";
+    protected override string SystemPrompt => "あなたは一流のCADオペレーターです。CADを用いた様々な製図を得意としています。指示に従って図面を描いてください。";
 
     //// Ollama を使う場合のクライアント生成(ローカルの Ollama サーバーに接続)
     //protected override IChatClient GetChatClient()
@@ -210,11 +210,11 @@ public class MyChatAgent : ChatAgent
 
         // CAD 操作用のツール群を取得
         static IEnumerable<AITool> GetCadTools()
-            => [AIFunctionFactory.Create(Program.GetPaperSize),
-                AIFunctionFactory.Create(Program.ClearAll    ),
-                AIFunctionFactory.Create(Program.DrawLine    ),
-                AIFunctionFactory.Create(Program.DrawCircle  ),
-                AIFunctionFactory.Create(Program.DrawEllipse ),
-                AIFunctionFactory.Create(Program.DrawFreeLine)];
+        {
+            return new[] {
+                AIFunctionFactory.Create(Program.GetPaperSize),
+                AIFunctionFactory.Create(Program.DrawLine    )
+            };
+        }
     }
 }
