@@ -31,7 +31,7 @@ public abstract class Figure
     public Color Color { get; set; } = Color.Black;
     public string ColorName { set => Color = Color.FromName(value); }
 
-    public float LineWidth { get; set; } = 5.0f;
+    public float LineWidth { get; set; } = 10.0f;
     public abstract RectangleF Bounds { get; }
 
     public void Draw(Graphics graphics)

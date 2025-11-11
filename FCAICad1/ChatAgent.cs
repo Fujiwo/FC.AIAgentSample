@@ -6,14 +6,19 @@ dotnet add package ModelContextProtocol --prerelease
 dotnet add package OllamaSharp
  */
 
+//#define AZURE_OPENAI
+#if AZURE_OPENAI
 // Azure OpenAI のクライアント用
 using Azure;
 using Azure.AI.OpenAI;
+#else // AZURE_OPENAI
+// Ollama 用
+using OllamaSharp;
+#endif // AZURE_OPENAI
+
 // Microsoft Agent Framework 用
 using Microsoft.Agents.AI;
 using Microsoft.Extensions.AI;
-// Ollama 用
-using OllamaSharp;
 // MCP クライアントとツールを利用するための名前空間
 using ModelContextProtocol.Client;
 // Debug.WriteLine を使うための名前空間
@@ -130,24 +135,7 @@ public class MyChatAgent : ChatAgent
 常にプロフェッショナルな品質を追求してください。
 ";
 
-    //// Ollama を使う場合のクライアント生成(ローカルの Ollama サーバーに接続)
-    //protected override IChatClient GetChatClient()
-    //{
-    //    var uri = new Uri("http://localhost:11434");
-    //    var ollama = new OllamaApiClient(uri);
-    //    // 使用するモデルを指定
-    //    // クラウドベースのモデルを使用(実行速度の向上のため)
-    //    // ローカル LLM を使用する場合は "gemma3:latest" などに変更してください
-    //    ollama.SelectedModel = "gpt-oss:20b-cloud";
-
-    //    // IChatClient インターフェイスに変換して、ツール呼び出しを有効にしてビルド
-    //    IChatClient chatClient = ollama;
-    //    chatClient = chatClient.AsBuilder()
-    //                           .UseFunctionInvocation() // ツール呼び出しを使う
-    //                           .Build();
-    //    return chatClient;
-    //}
-
+#if AZURE_OPENAI
     //Azure OpenAI を使う場合のクライアント生成
     protected override IChatClient GetChatClient()
     {
@@ -192,6 +180,25 @@ public class MyChatAgent : ChatAgent
             //return @"[Azure OpenAI の APIキー]";
         }
     }
+#else // AZURE_OPENAI
+    // Ollama を使う場合のクライアント生成(ローカルの Ollama サーバーに接続)
+    protected override IChatClient GetChatClient()
+    {
+        var uri = new Uri("http://localhost:11434");
+        var ollama = new OllamaApiClient(uri);
+        // 使用するモデルを指定
+        // クラウドベースのモデルを使用(実行速度の向上のため)
+        // ローカル LLM を使用する場合は "gemma3:latest" などに変更してください
+        ollama.SelectedModel = "gpt-oss:20b-cloud";
+
+        // IChatClient インターフェイスに変換して、ツール呼び出しを有効にしてビルド
+        IChatClient chatClient = ollama;
+        chatClient = chatClient.AsBuilder()
+                               .UseFunctionInvocation() // ツール呼び出しを使う
+                               .Build();
+        return chatClient;
+    }
+#endif // AZURE_OPENAI
 
     // MCP サーバーのツールを取得
     // - McpClient に接続し、ツール一覧を取得して返す

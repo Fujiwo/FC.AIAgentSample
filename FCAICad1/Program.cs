@@ -28,6 +28,13 @@ namespace FCAICad
             if (mainForm is not null) {
                 mainForm.AppendResponse($"Agent: {response}{Environment.NewLine}");
                 mainForm.OnPromptedEnd();
+
+                DrawCircle(
+                    "Red",
+                    2.0f,
+                    new PointF(1000, 1000),
+                    500.0f
+                );
             }
         }
 
@@ -187,7 +194,7 @@ namespace FCAICad
         public static void DrawLine(
             [Description("The color of the line.")]
             string color,
-            [Description("The line width (1 to 10) of the line.")]
+            [Description("The line width (3 to 20) of the line.")]
             float lineWidth,
             [Description("The starting point of the line.")]
             PointF start,
@@ -200,7 +207,7 @@ namespace FCAICad
         public static void DrawCircle(
             [Description("The color of the circle.")]
             string color,
-            [Description("The line width (1 to 10) of the circle.")]
+            [Description("The line width (3 to 20) of the circle.")]
             float lineWidth,
             [Description("The center point of the circle.")]
             PointF center,
@@ -213,7 +220,7 @@ namespace FCAICad
         public static void DrawEllipse(
             [Description("The color of the ellipse.")]
             string color,
-            [Description("The line width (1 to 10) of the ellipse.")]
+            [Description("The line width (3 to 20) of the ellipse.")]
             float lineWidth,
             [Description("The center point of the ellipse.")]
             PointF center,
@@ -228,7 +235,7 @@ namespace FCAICad
         public static void DrawFreeLine(
             [Description("The color of the free line.")]
             string color,
-            [Description("The line width (1 to 10) of the free line.")]
+            [Description("The line width (3 to 20) of the free line.")]
             float lineWidth,
             [Description("Points that make up the free curve.")]
             PointF[] points
