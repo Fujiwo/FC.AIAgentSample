@@ -28,6 +28,7 @@ namespace FCAICad
             promptTextBox = new TextBox();
             promptButton = new Button();
             responseTextBox = new TextBox();
+            clearButton = new Button();
             SuspendLayout();
             // 
             // view
@@ -36,7 +37,7 @@ namespace FCAICad
             view.BackColor = Color.White;
             view.Location = new Point(-5, -1);
             view.Name = "view";
-            view.Size = new Size(1173, 859);
+            view.Size = new Size(2373, 1133);
             view.TabIndex = 0;
             // 
             // promptTextBox
@@ -44,38 +45,52 @@ namespace FCAICad
             promptTextBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             promptTextBox.BackColor = Color.FromArgb(255, 255, 192);
             promptTextBox.ForeColor = Color.FromArgb(64, 64, 0);
-            promptTextBox.Location = new Point(-4, 864);
+            promptTextBox.Location = new Point(0, 1140);
             promptTextBox.Multiline = true;
             promptTextBox.Name = "promptTextBox";
-            promptTextBox.Size = new Size(1059, 165);
+            promptTextBox.Size = new Size(2156, 150);
             promptTextBox.TabIndex = 1;
             // 
             // promptButton
             // 
             promptButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            promptButton.Location = new Point(1061, 864);
+            promptButton.Location = new Point(2158, 1140);
             promptButton.Name = "promptButton";
-            promptButton.Size = new Size(102, 165);
+            promptButton.Size = new Size(102, 150);
             promptButton.TabIndex = 2;
-            promptButton.Text = "▶";
+            promptButton.Text = "🤖";
             promptButton.UseVisualStyleBackColor = true;
             promptButton.Click += OnPromptButtonClick;
             // 
             // responseTextBox
             // 
             responseTextBox.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            responseTextBox.Location = new Point(6, 1035);
+            responseTextBox.BackColor = Color.FromArgb(192, 255, 255);
+            responseTextBox.ForeColor = Color.FromArgb(0, 64, 64);
+            responseTextBox.Location = new Point(0, 1296);
             responseTextBox.Multiline = true;
             responseTextBox.Name = "responseTextBox";
             responseTextBox.ReadOnly = true;
-            responseTextBox.Size = new Size(1157, 289);
+            responseTextBox.Size = new Size(2363, 200);
             responseTextBox.TabIndex = 3;
+            // 
+            // clearButton
+            // 
+            clearButton.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            clearButton.Location = new Point(2261, 1140);
+            clearButton.Name = "clearButton";
+            clearButton.Size = new Size(102, 150);
+            clearButton.TabIndex = 4;
+            clearButton.Text = "🆑";
+            clearButton.UseVisualStyleBackColor = true;
+            clearButton.Click += OnClearButtonClick;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(20F, 48F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1164, 1326);
+            ClientSize = new Size(2364, 1497);
+            Controls.Add(clearButton);
             Controls.Add(responseTextBox);
             Controls.Add(promptButton);
             Controls.Add(promptTextBox);
@@ -92,5 +107,6 @@ namespace FCAICad
         TextBox promptTextBox;
         Button promptButton;
         TextBox responseTextBox;
+        private Button clearButton;
     }
 }
