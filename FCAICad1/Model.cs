@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Microsoft.VisualBasic.Logging;
+using System.Collections;
+using System.Diagnostics;
 
 namespace FCAICad;
 
@@ -14,6 +16,7 @@ public class Model : IEnumerable<Figure>
     {
         figures.Add(figure);
         Update?.Invoke(this, figure);
+        Log(figure);
     }
 
     public void Clear()
@@ -24,6 +27,8 @@ public class Model : IEnumerable<Figure>
 
     public IEnumerator<Figure> GetEnumerator() => figures.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    static void Log(object item) => Debug.WriteLine(item);
 }
 
 public abstract class Figure
@@ -40,6 +45,9 @@ public abstract class Figure
         DrawShape(graphics, pen);
     }
 
+    public override string ToString()
+        => $"{GetType().Name} (Color: {Color.Name}, LineWidth: {LineWidth})";
+
     protected virtual void DrawShape(Graphics graphics, Pen pen) {}
 }
 
@@ -52,6 +60,9 @@ public class LineFigure : Figure
                                                         y     : Math.Min(Start.Y, End.Y),
                                                         width : Math.Abs(End.X - Start.X),
                                                         height: Math.Abs(End.Y - Start.Y));
+
+    public override string ToString()
+        => $"{base.ToString()}, Start: {Start}, End: {End}";
 
     protected override void DrawShape(Graphics graphics, Pen pen)
         =>  graphics.DrawLine(pen, Start, End);
@@ -67,6 +78,9 @@ public class CircleFigure : Figure
                                                         width : Radius + Radius,
                                                         height: Radius + Radius);
 
+    public override string ToString()
+        => $"{base.ToString()}, Center: {Center}, Radius: {Radius}";
+
     protected override void DrawShape(Graphics graphics, Pen pen)
         => graphics.DrawEllipse(pen, Center.X - Radius, Center.Y - Radius, Radius + Radius, Radius + Radius);
 }
@@ -81,6 +95,9 @@ public class EllipseFigure : Figure
                                                         y     : Center.Y - RadiusY,
                                                         width : RadiusX + RadiusX,
                                                         height: RadiusY + RadiusY);
+
+    public override string ToString()
+        => $"{base.ToString()}, Center: {Center}, RadiusX: {RadiusX}, RadiusY: {RadiusY}";
 
     protected override void DrawShape(Graphics graphics, Pen pen)
         => graphics.DrawEllipse(pen, Center.X - RadiusX, Center.Y - RadiusY, RadiusX + RadiusX, RadiusY + RadiusY);
@@ -131,6 +148,9 @@ public class FreeLineFigure : Figure
         }
         return false;
     }
+
+    public override string ToString()
+        => $"{base.ToString()}, Points: {string.Join(", ", position)}";
 
     protected override void DrawShape(Graphics graphics, Pen pen)
         => GraphicHelper.DrawBezierLine(graphics, pen, position.ToArray());

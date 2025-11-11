@@ -28,13 +28,6 @@ namespace FCAICad
             if (mainForm is not null) {
                 mainForm.AppendResponse($"Agent: {response}{Environment.NewLine}");
                 mainForm.OnPromptedEnd();
-
-                DrawCircle(
-                    "Red",
-                    2.0f,
-                    new PointF(1000, 1000),
-                    500.0f
-                );
             }
         }
 
