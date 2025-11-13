@@ -106,6 +106,20 @@ public class RectangleFigure : Figure
     }
 }
 
+public class RoundedRectangleFigure : RectangleFigure
+{
+    public SizeF Radius { get; set; } = new SizeF(width: 1.0f, height: 1.0f);
+
+    protected override void DrawShape(Graphics graphics, Pen pen)
+    {
+        if (IsFilled) {
+            using Brush brush = Brush;
+            graphics.FillRoundedRectangle(brush, Shape, Radius);
+        }
+        graphics.DrawRoundedRectangle(pen, Shape, Radius);
+    }
+}
+
 public class CircleFigure : Figure
 {
     public required PointF Center { get; init; }
@@ -224,6 +238,16 @@ public class PolylineFigure : PointsFigure
 public class CurveFigure : PointsFigure
 {
     public bool IsFilled { get; set; } = true;
+
+    public override RectangleF ShapeBounds
+    {
+        get {
+            var bounds = base.ShapeBounds;
+            const float inflateRate = 0.05f;
+            bounds.Inflate(bounds.Width * inflateRate, bounds.Height * inflateRate);
+            return bounds;
+        }
+    }
 
     protected override void DrawShape(Graphics graphics, Pen pen)
     {

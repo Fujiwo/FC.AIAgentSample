@@ -47,10 +47,8 @@ namespace FCAIChat.AIAgents
         public async Task<string> GetResponseAsync(string userPrompt)
         {
             await Start();
-
             // ユーザープロンプトをエージェントスレッドに送信し、応答を取得
-            var response = Agent is null ? null : await Agent.RunAsync(ToUserMessage(userPrompt), Thread);
-            return response?.Text ?? string.Empty;
+            return await RunAgentAsync(ToUserMessage(userPrompt)) ?? string.Empty;
 
             static ChatMessage ToUserMessage(string userPrompt) => new ChatMessage(ChatRole.User, userPrompt);
         }
@@ -112,6 +110,21 @@ namespace FCAIChat.AIAgents
         {
             pendingThreadRestore = serializedThread;
             wasThreadRestored = true;
+        }
+
+        // エージェントに ChatMessage を投げて応答を取得
+        async Task<string> RunAgentAsync(ChatMessage chatMessage)
+        {
+            if (Agent is null)
+                return string.Empty;
+
+            try {
+                var response = await Agent.RunAsync(chatMessage, Thread);
+                return response?.Text ?? string.Empty;
+            } catch (Exception ex) {
+                Debug.WriteLine($"Error running agent: {ex.Message}");
+                return "……";
+            }
         }
     }
 
@@ -192,10 +205,10 @@ namespace FCAIChat.AIAgents
             static IClientTransport GetBraveSearchToolClientTransport()
             {
                 return new StdioClientTransport(new() {
-                            Name = "braveSearch",
-                            Command = "npx",
-                            Arguments = ["-y", "@modelcontextprotocol/server-brave-search"],
-                            EnvironmentVariables = new Dictionary<string, string> {
+                            Name                 = "braveSearch",
+                            Command              = "npx",
+                            Arguments            = ["-y", "@modelcontextprotocol/server-brave-search"],
+                            EnvironmentVariables = new Dictionary<string, string?> {
                                 ["BRAVE_API_KEY"] = GetKey()
                             }
                        });
