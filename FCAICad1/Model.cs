@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualBasic.Logging;
-using System.Collections;
-using System.Diagnostics;
+﻿using System.Collections;
 
 namespace FCAICad;
 
@@ -11,6 +9,17 @@ public class Model : IEnumerable<Figure>
     public event EventHandler<Figure?>? Update;
 
     readonly List<Figure> figures = new();
+
+    public RectangleF Bounds {
+        get {
+            if (figures.Count <= 0)
+                return new RectangleF(PointF.Empty, SizeF.Empty);
+            var bounds = figures[0].Bounds;
+            for (var index = 1; index < figures.Count; index++)
+                bounds = RectangleF.Union(bounds, figures[index].Bounds);
+            return bounds;
+        }
+    }
 
     public void Add(Figure figure)
     {
@@ -35,7 +44,17 @@ public abstract class Figure
     public string ColorName { set => Color = Color.FromName(value); }
 
     public float LineWidth { get; set; } = 10.0f;
-    public abstract RectangleF Bounds { get; }
+
+    public RectangleF Bounds
+    {
+        get {
+            var bounds = ShapeBounds;
+            bounds.Inflate(LineWidth / 2.0f, LineWidth / 2.0f);
+            return bounds;
+        }
+    }
+
+    public abstract RectangleF ShapeBounds { get; }
 
     public void Draw(Graphics graphics)
     {
@@ -54,10 +73,10 @@ public class LineFigure : Figure
     public required PointF Start { get; init; }
     public required PointF End   { get; init; }
 
-    public override RectangleF Bounds => new RectangleF(x     : Math.Min(Start.X, End.X),
-                                                        y     : Math.Min(Start.Y, End.Y),
-                                                        width : Math.Abs(End.X - Start.X),
-                                                        height: Math.Abs(End.Y - Start.Y));
+    public override RectangleF ShapeBounds => new RectangleF(x     : Math.Min(Start.X, End.X ),
+                                                             y     : Math.Min(Start.Y, End.Y ),
+                                                             width : Math.Abs(End.X - Start.X),
+                                                             height: Math.Abs(End.Y - Start.Y));
 
     public override string ToString()
         => $"{base.ToString()}, Start: {Start}, End: {End}";
@@ -66,21 +85,48 @@ public class LineFigure : Figure
         =>  graphics.DrawLine(pen, Start, End);
 }
 
+public class RectangleFigure : Figure
+{
+    public required RectangleF Shape { get; init; }
+    public bool IsFilled { get; set; } = true;
+
+    public override RectangleF ShapeBounds => Shape;
+
+    public override string ToString()
+        => $"{base.ToString()}, Shape: {Shape}";
+
+    protected override void DrawShape(Graphics graphics, Pen pen)
+    {
+        if (IsFilled) {
+            using Brush brush = new SolidBrush(Color);
+            graphics.FillRectangle(brush, Shape);
+        }
+        graphics.DrawRectangle(pen, Shape);
+    }
+}
+
 public class CircleFigure : Figure
 {
     public required PointF Center { get; init; }
     public required float Radius { get; init; }
+    public bool IsFilled { get; set; } = true;
 
-    public override RectangleF Bounds => new RectangleF(x     : Center.X - Radius,
-                                                        y     : Center.Y - Radius,
-                                                        width : Radius + Radius,
-                                                        height: Radius + Radius);
+    public override RectangleF ShapeBounds => new RectangleF(x     : Center.X - Radius,
+                                                             y     : Center.Y - Radius,
+                                                             width : Radius + Radius  ,
+                                                             height: Radius + Radius  );
 
     public override string ToString()
         => $"{base.ToString()}, Center: {Center}, Radius: {Radius}";
 
     protected override void DrawShape(Graphics graphics, Pen pen)
-        => graphics.DrawEllipse(pen, Center.X - Radius, Center.Y - Radius, Radius + Radius, Radius + Radius);
+    {
+        if (IsFilled) {
+            using Brush brush = new SolidBrush(Color);
+            graphics.FillEllipse(brush, Center.X - Radius, Center.Y - Radius, Radius + Radius, Radius + Radius);
+        }
+        graphics.DrawEllipse(pen, Center.X - Radius, Center.Y - Radius, Radius + Radius, Radius + Radius);
+   }
 }
 
 public class EllipseFigure : Figure
@@ -89,16 +135,24 @@ public class EllipseFigure : Figure
     public required float RadiusX { get; init; }
     public required float RadiusY { get; init; }
 
-    public override RectangleF Bounds => new RectangleF(x     : Center.X - RadiusX,
-                                                        y     : Center.Y - RadiusY,
-                                                        width : RadiusX + RadiusX,
-                                                        height: RadiusY + RadiusY);
+    public bool IsFilled { get; set; } = true;
+
+    public override RectangleF ShapeBounds => new RectangleF(x     : Center.X - RadiusX,
+                                                             y     : Center.Y - RadiusY,
+                                                             width : RadiusX + RadiusX ,
+                                                             height: RadiusY + RadiusY );
 
     public override string ToString()
         => $"{base.ToString()}, Center: {Center}, RadiusX: {RadiusX}, RadiusY: {RadiusY}";
 
     protected override void DrawShape(Graphics graphics, Pen pen)
-        => graphics.DrawEllipse(pen, Center.X - RadiusX, Center.Y - RadiusY, RadiusX + RadiusX, RadiusY + RadiusY);
+    {
+        if (IsFilled) {
+            using Brush brush = new SolidBrush(Color);
+            graphics.FillEllipse(brush, Center.X - RadiusX, Center.Y - RadiusY, RadiusX + RadiusX, RadiusY + RadiusY);
+        }
+        graphics.DrawEllipse(pen, Center.X - RadiusX, Center.Y - RadiusY, RadiusX + RadiusX, RadiusY + RadiusY);
+    }
 }
 
 public class FreeFormCurveFigure : Figure
@@ -116,7 +170,9 @@ public class FreeFormCurveFigure : Figure
         }
     }
 
-    public override RectangleF Bounds {
+    public bool IsClosed { get; set; } = false;
+
+    public override RectangleF ShapeBounds {
         get {
             if (position.Count <= 0)
                 return RectangleF.Empty;
@@ -130,10 +186,13 @@ public class FreeFormCurveFigure : Figure
                 if (point.X > maxX) maxX = point.X;
                 if (point.Y > maxY) maxY = point.Y;
             });
-            return new RectangleF(x     : minX,
-                                  y     : minY,
-                                  width : maxX - minX,
-                                  height: maxY - minY);
+            var bounds = new RectangleF(x     : minX       ,
+                                        y     : minY       ,
+                                        width : maxX - minX,
+                                        height: maxY - minY);
+            const float inflateRate = 0.05f;
+            bounds.Inflate(bounds.Width * inflateRate, bounds.Height * inflateRate);
+            return bounds;
         }
     }
 
@@ -150,7 +209,12 @@ public class FreeFormCurveFigure : Figure
         => $"{base.ToString()}, Points: {string.Join(", ", position)}";
 
     protected override void DrawShape(Graphics graphics, Pen pen)
-        => GraphicHelper.DrawBezierLine(graphics, pen, position.ToArray());
+    {
+        if (IsClosed)
+            GraphicHelper.DrawBezierPolygon(graphics, pen, position.ToArray());
+        else
+            GraphicHelper.DrawBezierLine(graphics, pen, position.ToArray());
+    }
 }
 
 public static class GraphicHelper
